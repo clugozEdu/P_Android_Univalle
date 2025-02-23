@@ -6,12 +6,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowCompat
+import androidx.appcompat.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,11 @@ class MainActivity : AppCompatActivity() {
         // Habilita edge-to-edge usando WindowCompat
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
+
+        // Configura el Toolbar como ActionBar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -34,14 +40,14 @@ class MainActivity : AppCompatActivity() {
             val nombre = etNombre.text.toString()
             val edadText = etEdad.text.toString()
 
-            if(nombre.isEmpty() || edadText.isEmpty()){
+            if (nombre.isEmpty() || edadText.isEmpty()) {
                 Toast.makeText(this, "Por favor, ingresa todos los datos", Toast.LENGTH_SHORT).show()
             } else {
                 val edad = edadText.toIntOrNull()
-                if(edad == null) {
+                if (edad == null) {
                     Toast.makeText(this, "Ingresa una edad válida", Toast.LENGTH_SHORT).show()
                 } else {
-                    if(edad >= 18){
+                    if (edad >= 18) {
                         tvResultado.text = "Hola $nombre, eres mayor de edad."
                     } else {
                         tvResultado.text = "Hola $nombre, eres menor de edad."
@@ -61,12 +67,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_calcular_edad -> {
-                // Ya estamos en la pantalla de calcular edad
                 Toast.makeText(this, "Ya estás en Calcular Edad", Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.menu_calcular_nota -> {
-                // Navegar a la pantalla de calcular nota
                 val intent = Intent(this, gradeActivity::class.java)
                 startActivity(intent)
                 return true
